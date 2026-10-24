@@ -41,12 +41,18 @@ button.x{background:none;color:var(--mute);padding:2px 8px}
 label.chk{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dotted var(--line)}
 label.chk input{width:22px;height:22px;flex:none;margin:1px 0 0;accent-color:var(--red)}
 label.chk input:checked+span{text-decoration:line-through;color:var(--mute)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px}.chip{flex:none;font:600 13px Barlow,sans-serif;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:16px;padding:5px 12px}
+#lists .card{scroll-margin-top:64px}.gt{font:400 16px Bungee,Impact,sans-serif;color:var(--teal);background:transparent;border:0;border-bottom:2px dotted var(--line);border-radius:0;padding:4px 0;margin-bottom:4px}
+.ci{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dotted var(--line)}.ci input[type=checkbox]{width:22px;height:22px;flex:none;margin:5px 0 0;accent-color:var(--red)}
+textarea.it{flex:1;min-height:30px;margin:0;border:0;background:transparent;padding:3px 4px;resize:none;overflow:hidden}.ci input:checked+textarea{text-decoration:line-through;color:var(--mute)}
+.ai{margin-top:8px}.sm{font-size:12px;padding:6px 10px}
+.map svg{width:100%;height:auto;display:block}.leg{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px;font-size:14px}.leg b{color:var(--red)}
 .bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--teal);width:0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ph{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dotted var(--line)}
 .ph b{color:var(--teal)}
 .exp{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dotted var(--line)}
-#mod{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;flex-direction:column;z-index:20;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}#mod.on{display:flex}#mod .bd{flex:1;min-height:0;overflow:auto;display:grid;place-items:center}#mod img{max-width:100%;max-height:100%}#mod iframe{width:100%;height:100%;border:0;background:#fff}input[type=file]{padding:10px}
+#mod{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;flex-direction:column;z-index:20;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}#mod.on{display:flex}#mod .bd{flex:1;min-height:0;overflow:auto;display:block;text-align:center;touch-action:pan-x pan-y pinch-zoom}#mod .bd img{max-width:100%}#mod canvas{display:block;margin:0 auto 8px;background:#fff;max-width:none}input[type=file]{padding:10px}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .3s}}
 </style>
 </head>
@@ -62,20 +68,47 @@ label.chk input:checked+span{text-decoration:line-through;color:var(--mute)}
 <main>
 
 <section id="guida">
+<h2>La rotta</h2>
+<div class="card map" id="map1"></div>
 <h2>Il viaggio in breve</h2>
 <div class="card big">
-<div class="ph"><span>30 ott</span><b>Volo United da Milano Malpensa (mattina), arrivo a Dallas in serata: li viene a prendere la sorella di Leo</b></div>
+<div class="ph"><span>30 ott</span><b>UA 18 Milano MXP 9:45 → Newark 13:50, poi UA 1590 Newark 15:29 → Dallas DFW 18:32; li viene a prendere la sorella di Leo</b></div>
 <div class="ph"><span>31 ott – 1 nov</span><b>Dallas fino all’1 (alloggio per le notti del 30 e 31 organizzato dalla sorella di Leo), poi trasferimento a Wichita Falls</b></div>
-<div class="ph"><span>2 – 13 nov</span><b>Road trip da Wichita Falls a San Diego e ritorno (2 notti in auto, le altre in motel)</b></div>
-<div class="ph"><span>13 – 20 nov</span><b>13: riconsegna auto · 14–15 attività con la sorella, tra cui il poligono all’aperto · 16–19 da decidere, senza auto (forse Texas) · sera del 19 in aeroporto a Dallas</b></div>
-<div class="ph"><span>20 nov</span><b>Volo di rientro United, circa alle 7:00 (notte in aeroporto)</b></div>
+<div class="ph"><span>2 – 13 nov</span><b>Road trip da Wichita Falls a San Diego e ritorno: ritiro auto il 2 alle 9:00, riconsegna il 13 entro le 19:00 (2 notti in auto, le altre in motel)</b></div>
+<div class="ph"><span>13 – 18 nov</span><b>13: riconsegna auto · 14–15 attività con la sorella, tra cui il poligono all’aperto · 16–18 da decidere, senza auto (forse Texas) · sera del 18 in aeroporto a Dallas</b></div>
+<div class="ph"><span>19 – 20 nov</span><b>Notte in aeroporto del 18; UA 1598 Dallas 7:30 → Newark 11:52, poi UA 19 Newark 17:35 → Milano 7:30 del 20</b></div>
+</div>
+<h2>Voli United</h2>
+<div class="card">
+<p class="tag">Andata · 30 ottobre</p>
+<div class="ph"><span>UA 18</span><b>Milano MXP 9:45 → Newark EWR 13:50 (9 h 5)</b></div>
+<div class="ph"><span>UA 1590</span><b>Newark EWR 15:29 → Dallas DFW 18:32 (4 h 3)</b></div>
+<p class="meta">Posti: UA 18 Simone 54E, Leo 54F · UA 1590 Simone 36D, Leo 36E. Lo scalo a Newark è di 1 h 39: stretto, perché ci sono controllo passaporti USA, ritiro bagagli e un nuovo check-in. Andate dritti, con passaporto ed ESTA a portata di mano.</p>
+<p class="tag">Ritorno · 19 e 20 novembre</p>
+<div class="ph"><span>UA 1598</span><b>Dallas DFW 7:30 → Newark EWR 11:52 (3 h 22)</b></div>
+<div class="ph"><span>UA 19</span><b>Newark EWR 17:35 → Milano MXP 7:30 del 20 (7 h 55)</b></div>
+<p class="meta">Posti: UA 1598 Simone 34D, Leo 34E · UA 19 Simone 54E, Leo 54F. Scalo a Newark di circa 5 h 40. Il codice di prenotazione resta nei documenti caricati, non è scritto qui.</p>
+</div>
+<h2>Auto a noleggio (Hertz)</h2>
+<div class="card">
+<div class="ph"><span>Ritiro</span><b>Lun 2 nov 2026, 9:00</b></div>
+<div class="ph"><span>Riconsegna</span><b>Ven 13 nov 2026, 19:00</b></div>
+<div class="ph"><span>Dove</span><b>Aeroporto di Wichita Falls, 4000 Armstrong Dr #2, Wichita Falls (TX) · tel. (940) 851-7900</b></div>
+<div class="ph"><span>Auto</span><b>Toyota Tacoma o simile · 5 posti · automatica · aria condizionata · CarPlay e Android Auto</b></div>
+<p class="meta"><b>Incluso:</b> chilometri illimitati · carburante “pieno a pieno” (si riconsegna col serbatoio pieno) · assicurazione collisione e danni (CDW/LDW) · responsabilità civile da 300.000 $ · gomme · franchigia zero · secondo guidatore gratis · assistenza stradale 24 ore su 24 · rimborso pedaggi · tasse · cancellazione gratuita entro 48 ore.</p>
+<p class="meta"><b>Attenzione:</b> la prenotazione è a nome di Simone. Leo va aggiunto come secondo guidatore al ritiro (è gratis). Servono patente e patente internazionale di entrambi.</p>
+</div>
+<h2>Assicurazione di viaggio</h2>
+<div class="card">
+<p>Inclusa con il noleggio (fornita da Terrawind): copertura medica fino a 150.000 $, assistenza legale in caso di incidente fino a 5.000 $, bagagli persi fino a 1.500 $, cancellazione del volo fino a 1.500 $.</p>
+<p class="meta">Va attivata dall’app “hola”. Controlla nella mail i passaggi completi prima di partire.</p>
 </div>
 <h2>Già sistemato</h2>
-<div class="card">Passaporto e ESTA in regola · Volo prenotato · Toyota Tacoma (o simile) dal 2 al 13 novembre, chilometri illimitati, ritiro e riconsegna nello stesso posto · Alloggio a Wichita Falls · Si guida a turno, entrambi nel contratto.</div>
+<div class="card">Passaporti e ESTA · Voli · Auto · Dallas il 30 e 31 · Alloggio a Wichita Falls · Si guida a turno.</div>
 <h2>Da completare</h2>
 <div class="card">
 <p class="meta">Ancora da definire. Quando li hai, vanno qui.</p>
-<ul><li>Orari precisi dei voli e terminal</li><li>Compagnia di noleggio e orario di ritiro a Wichita Falls</li><li>Alloggi dal 2 al 12 novembre: da prenotare, tranne le 2 notti in auto</li><li>Poligono del 14 o 15: nome e orari</li><li>16–19 novembre: programma da decidere, senza auto</li></ul>
+<ul><li>Alloggi dal 2 al 12 novembre: da prenotare, tranne le 2 notti in auto</li><li>Aggiungere Leo come secondo guidatore al ritiro (prenotazione a nome di Simone)</li><li>Attivare l’assicurazione di viaggio dall’app hola</li><li>Poligono del 14 o 15: nome e orari</li><li>16–18 novembre: programma da decidere, senza auto</li></ul>
 </div>
 <h2>Da sapere</h2>
 <div class="card">
@@ -86,6 +119,7 @@ label.chk input:checked+span{text-decoration:line-through;color:var(--mute)}
 </section>
 
 <section id="roadtrip">
+<div class="card map" id="map2"></div>
 <h2>Giorno per giorno</h2>
 <p class="meta">Tempi di guida indicativi, da verificare su Maps. Meteo: valori tipici di novembre, non previsioni.</p>
 <div id="days"></div>
@@ -94,7 +128,10 @@ label.chk input:checked+span{text-decoration:line-through;color:var(--mute)}
 <section id="checklist">
 <h2>Check-list</h2>
 <div class="card"><div class="row"><b id="pct">0%</b><span class="meta" id="cnt"></span></div><div class="bar"><i id="barfill"></i></div></div>
+<div class="chips" id="chips"></div>
 <div id="lists"></div>
+<div class="card"><input id="ngn" placeholder="Nuova lista (es. Poligono)" aria-label="Nome nuova lista"><button id="ngb" style="margin-top:8px">Aggiungi lista</button></div>
+<p><button class="x sm" id="rst">Ripristina le liste originali</button></p>
 </section>
 
 <section id="documenti">
@@ -107,7 +144,7 @@ label.chk input:checked+span{text-decoration:line-through;color:var(--mute)}
 <p class="meta">I file restano solo su questo dispositivo e non vengono caricati su nessun server. Tieni comunque una copia offline nell’app File del telefono.</p>
 </div>
 <div id="dlist"></div>
-<div id="mod" role="dialog" aria-label="Anteprima documento"><div class="row" style="padding:10px 14px;background:var(--bg)"><b id="mttl"></b><span><a id="mlink" href="#" target="_blank" rel="noopener" style="color:var(--teal)">Schermo intero</a> <button id="mclose">Chiudi</button></span></div><div class="bd" id="mbd"></div></div>
+<div id="mod" role="dialog" aria-label="Anteprima documento"><div class="row" style="padding:10px 14px;background:var(--bg)"><b id="mttl"></b><span><button id="mclose">Chiudi</button></span></div><div class="bd" id="mbd"></div></div>
 </section>
 
 <section id="budget">
@@ -132,13 +169,14 @@ label.chk input:checked+span{text-decoration:line-through;color:var(--mute)}
 
 <section id="inglese">
 <h2>Frasi utili</h2>
+<input id="phq" placeholder="Cerca una frase…" aria-label="Cerca una frase">
 <div id="phr"></div>
 </section>
 
 </main>
 <script>
 var DAYS=[
-{n:"Lun 2 nov",r:"Wichita Falls → Albuquerque",d:"~7 h",s:["Amarillo: Cadillac Ranch","Tucumcari: insegne al neon della 66","Santa Rosa"],b:"Albuquerque",w:"3–16 °C",t:"Giornata lunga: parti presto e fai il pieno ad Amarillo."},
+{n:"Lun 2 nov",r:"Wichita Falls → Albuquerque",d:"~7 h",s:["Ritiro auto Hertz alle 9:00 (aeroporto di Wichita Falls)","Amarillo: Cadillac Ranch","Tucumcari: insegne al neon della 66","Santa Rosa"],b:"Albuquerque",w:"3–16 °C",t:"Giornata lunga: dopo il cambio d’ora il sole cala presto, quindi poche soste. Fai il pieno ad Amarillo."},
 {n:"Mar 3 nov",r:"Albuquerque → Williams (AZ)",d:"~5,5 h",s:["Gallup","Petrified Forest (se c’è tempo)","Flagstaff"],b:"Williams o Flagstaff",w:"–2–12 °C",t:"Zona alta: controlla ghiaccio e neve sulla I-40."},
 {n:"Mer 4 nov",r:"Grand Canyon → Las Vegas",d:"~6 h con soste",s:["South Rim al mattino","Seligman","Oatman e gli asini selvatici","Hoover Dam"],b:"Las Vegas",w:"Rim: –3–9 °C · Vegas: 9–20 °C",t:"Al Rim la mattina è gelida: strati e guanti."},
 {n:"Gio 5 nov",r:"Las Vegas, giornata libera",d:"–",s:["Strip e hotel","Fremont Street","Cena e luci"],b:"Las Vegas",w:"9–20 °C",t:"Parcheggio gratis o a pagamento? Chiedilo all’hotel."},
@@ -149,44 +187,100 @@ var DAYS=[
 {n:"Mar 10 nov",r:"San Diego → Phoenix / Tucson",d:"~5–6 h",s:["Deserto del Sonora","Saguaro (se ti fermi a Tucson)"],b:"Phoenix o Tucson",w:"10–24 °C",t:"Fai il pieno prima del deserto."},
 {n:"Mer 11 nov",r:"Tucson → El Paso",d:"~5–6 h",s:["White Sands (opzionale, +1,5 h)"],b:"El Paso",w:"7–21 °C",t:"White Sands solo se arrivate presto."},
 {n:"Gio 12 nov",r:"El Paso → Abilene / Midland",d:"~5–6 h",s:["Texas occidentale","Pausa a Pecos"],b:"Abilene o Midland",w:"5–19 °C",t:"Tratta lunga e vuota: scorta d’acqua e snack."},
-{n:"Ven 13 nov",r:"→ Wichita Falls",d:"~3 h",s:["Riconsegna auto a Wichita Falls"],b:"Wichita Falls",w:"4–18 °C",t:"Controlla gli orari di chiusura della sede di noleggio."}
+{n:"Ven 13 nov",r:"→ Wichita Falls",d:"~3 h",s:["Riconsegna auto Hertz entro le 19:00, col serbatoio pieno"],b:"Wichita Falls",w:"4–18 °C",t:"Pieno di benzina prima di arrivare e tieni lo scontrino."}
 ];
 var CHK=[
-["Documenti (da fare subito)",["Passaporto valido e stampa/screenshot della ESTA","Patente + patente internazionale","Carta di credito vera per il noleggio","Assicurazione sanitaria di viaggio","Voucher noleggio, conferma volo, indirizzo di arrivo","Documento con foto per il poligono (chiedi al poligono cosa serve)"]],
-["Da prenotare",["Alloggi: Albuquerque, Williams/Flagstaff, Las Vegas, LA, San Diego, Phoenix/Tucson, El Paso, Abilene","Prenota prima Las Vegas, LA e Grand Canyon","Valuta l’America the Beautiful pass per i parchi","Notte del 19 in aeroporto: verifica orari di apertura del terminal e del check-in United"]],
-["Auto",["Controlla franchigia e coperture assicurative","Chiedi della tessera pedaggio","Supporto telefono e caricatore da auto","Mappe offline scaricate","Foto dell’auto al ritiro e alla riconsegna","Toyota Tacoma (pick-up): niente bagagli nel cassone aperto; chiedi un copri-cassone o tieni tutto in cabina","Notti in auto: coperte o sacco a pelo, cuscini, tendine oscuranti, acqua e snack","Non dormire col motore acceso in uno spazio chiuso (monossido di carbonio); scegli posti caldi e leciti"]],
+["Documenti (da fare subito)",["Passaporto valido e stampa/screenshot della ESTA","Patente + patente internazionale","Carta di credito vera per il noleggio","Assicurazione di viaggio: attiva quella inclusa nel noleggio (app hola) e controlla cosa copre","Voucher noleggio, conferma volo, indirizzo di arrivo","Documento con foto per il poligono (chiedi al poligono cosa serve)","Scalo a Newark di 1 h 39: passaporto, ESTA e carta d’imbarco pronti, niente soste"]],
+["Da prenotare",["Alloggi: Albuquerque, Williams/Flagstaff, Las Vegas, LA, San Diego, Phoenix/Tucson, El Paso, Abilene","Prenota prima Las Vegas, LA e Grand Canyon","Valuta l’America the Beautiful pass per i parchi","Notte del 18 in aeroporto: verifica orari di apertura del terminal e del check-in United"]],
+["Auto",["Aggiungi Leo come secondo guidatore al ritiro (patente e patente internazionale di entrambi)","Carburante pieno a pieno: riconsegna col serbatoio pieno e tieni lo scontrino","Chiedi della tessera pedaggio","Supporto telefono e caricatore da auto","Mappe offline scaricate","Foto dell’auto al ritiro e alla riconsegna","Toyota Tacoma (pick-up): niente bagagli nel cassone aperto; chiedi un copri-cassone o tieni tutto in cabina","Notti in auto: coperte o sacco a pelo, cuscini, tendine oscuranti, acqua e snack","Non dormire col motore acceso in uno spazio chiuso (monossido di carbonio); scegli posti caldi e leciti"]],
 ["Telefono e soldi",["eSIM USA o piano roaming","Adattatore prese tipo A/B","Avvisa la banca del viaggio","Un po’ di contanti per le mance"]],
 ["Valigia (novembre)",["Giacca pesante e strati caldi","Roba leggera per LA e San Diego","Guanti e cappello per il Grand Canyon","Scarpe comode","Cappellino e crema solare","Power bank","Farmaci personali","Costume"]]
 ];
-var PH=[["Where can I get gas?","Dove posso fare benzina?"],["Fill it up, please.","Il pieno, per favore."],["A table for two, please.","Un tavolo per due, per favore."],["Do you have a room for tonight?","Avete una camera per stasera?"],["What time is check-out?","A che ora è il check-out?"],["Is breakfast included?","La colazione è inclusa?"],["Can I park here?","Posso parcheggiare qui?"],["Is this road open? Any snow?","La strada è aperta? C’è neve?"],["I’d like to return the car.","Vorrei riconsegnare l’auto."],["Can we have the check, please?","Ci porta il conto, per favore?"],["Is tip included?","La mancia è inclusa?"]];
+var PH=[
+["Aeroporto e dogana",[["I’m here on vacation.","Sono qui in vacanza."],["We’re staying for three weeks.","Restiamo tre settimane."],["We’re staying with family in Texas.","Stiamo da parenti in Texas."],["Where is the baggage claim?","Dov’è il ritiro bagagli?"],["Where is the shuttle to the rental cars?","Dov’è la navetta per i noleggi?"],["Which gate is my flight?","Qual è il gate del mio volo?"],["Is this the line for check-in?","È questa la fila per il check-in?"],["Where are the restrooms?","Dov’è il bagno?"]]],
+["Auto e benzina",[["Where can I get gas?","Dove posso fare benzina?"],["Fill it up, please.","Il pieno, per favore."],["Regular unleaded, please.","Benzina normale, per favore."],["Do I pay at the pump or inside?","Pago alla pompa o dentro?"],["Is there a rest area nearby?","C’è un’area di sosta qui vicino?"],["Is this road open? Any snow?","La strada è aperta? C’è neve?"],["Can I park here?","Posso parcheggiare qui?"],["Can we park here overnight?","Possiamo parcheggiare qui per la notte?"],["I have a reservation under the name…","Ho una prenotazione a nome…"],["Is the mileage unlimited?","I chilometri sono illimitati?"],["We have a flat tire.","Abbiamo una gomma a terra."],["The car won’t start.","L’auto non parte."],["How far is it to the next town?","Quanto manca alla prossima città?"],["I’d like to return the car.","Vorrei riconsegnare l’auto."]]],
+["Hotel e motel",[["Do you have a room for tonight?","Avete una camera per stasera?"],["We have a reservation.","Abbiamo una prenotazione."],["What time is check-out?","A che ora è il check-out?"],["Is breakfast included?","La colazione è inclusa?"],["Could we have a late check-out?","Possiamo fare il check-out più tardi?"],["Is the Wi-Fi free?","Il Wi-Fi è gratuito?"],["Could we have extra blankets?","Possiamo avere altre coperte?"],["The heater isn’t working.","Il riscaldamento non funziona."],["Is there a laundry here?","C’è una lavanderia qui?"]]],
+["Ristorante",[["A table for two, please.","Un tavolo per due, per favore."],["What do you recommend?","Cosa ci consiglia?"],["I’ll have the burger, please.","Prendo l’hamburger, per favore."],["Could I get a refill?","Posso avere una ricarica?"],["To go, please.","Da asporto, per favore."],["Can we have the check, please?","Ci porta il conto, per favore?"],["Is tip included?","La mancia è inclusa?"],["Does it come with fries?","Viene con le patatine?"],["Tap water is fine, thanks.","Va bene l’acqua del rubinetto, grazie."]]],
+["Poligono e attività",[["I’ve never fired a gun before.","Non ho mai sparato prima."],["Can you show me how it works?","Può mostrarmi come funziona?"],["Where do I sign the waiver?","Dove firmo la liberatoria?"],["What are the safety rules?","Quali sono le regole di sicurezza?"],["How much is it for an hour?","Quanto costa un’ora?"],["Could you take a photo of us?","Può farci una foto?"]]],
+["Emergenze e salute",[["I need a doctor.","Ho bisogno di un medico."],["Please call 911.","Chiami il 911, per favore."],["I lost my passport.","Ho perso il passaporto."],["Is there a pharmacy nearby?","C’è una farmacia qui vicino?"],["I’m allergic to…","Sono allergico a…"],["Can you help us, please?","Può aiutarci, per favore?"],["We’re lost. Can you point us to…?","Siamo persi. Può indicarci…?"]]],
+["Conversazione",[["Nice to meet you.","Piacere di conoscerti."],["Sorry, could you repeat that more slowly?","Scusi, può ripetere più lentamente?"],["I speak a little English.","Parlo un po’ d’inglese."],["Thank you so much, have a great day!","Grazie mille, buona giornata!"]]]
+];
+function rph(q){q=(q||"").toLowerCase();var out="";PH.forEach(function(g){var it=g[1].filter(function(p){return !q||p[0].toLowerCase().indexOf(q)>=0||p[1].toLowerCase().indexOf(q)>=0});if(!it.length)return;out+='<h2>'+g[0]+'</h2><div class="card">'+it.map(function(p){return '<div class="ph"><b>'+p[0]+'</b><span class="meta">'+p[1]+'</span></div>'}).join("")+'</div>'});document.getElementById("phr").innerHTML=out||'<p class="meta">Nessuna frase trovata.</p>'}
+function PJ(o,a){return[Math.round((o+120.8)*24.5),Math.round((37.2-a)*56.35)]}
+var ST={wf:["Wichita Falls",-98.49,33.91],am:["Amarillo",-101.83,35.22],tc:["Tucumcari",-103.72,35.17],ab:["Albuquerque",-106.65,35.08],ga:["Gallup",-108.74,35.53],wi:["Williams",-112.19,35.25],gc:["Grand Canyon",-112.11,36.06],se:["Seligman",-112.88,35.33],km:["Kingman",-114.05,35.19],lv:["Las Vegas",-115.14,36.17],bs:["Barstow",-117.02,34.9],la:["Los Angeles",-118.24,34.05],sd:["San Diego",-117.16,32.72],ph:["Phoenix",-112.07,33.45],tu:["Tucson",-110.93,32.22],ep:["El Paso",-106.49,31.76],ab2:["Abilene",-99.73,32.45],dl:["Dallas",-96.8,32.78]};
+var OUT=["wf","am","tc","ab","ga","wi","gc","se","km","lv","bs","la","sd"],BACK=["sd","ph","tu","ep","ab2","wf"];
+var NUM=[["wf",1,-14,5,"end"],["am",2,0,-15,"middle"],["ab",3,0,-15,"middle"],["wi",4,0,26,"middle"],["gc",5,14,5,"start"],["lv",6,0,-15,"middle"],["la",7,14,5,"start"],["sd",8,14,5,"start"],["ph",9,0,26,"middle"],["ep",10,0,26,"middle"],["ab2",11,0,26,"middle"]];
+var MIN=[["tc",0,18,"middle"],["ga",0,-11,"middle"],["bs",9,4,"start"],["tu",0,19,"middle"]];
+var STOPS=[["Wichita Falls","2 e 13 nov"],["Amarillo","2 nov"],["Albuquerque","2–3 nov"],["Williams","3 nov"],["Grand Canyon","4 nov"],["Las Vegas","4–6 nov"],["Los Angeles","6–8 nov"],["San Diego","8–10 nov"],["Phoenix / Tucson","10 nov"],["El Paso","11 nov"],["Abilene","12 nov"]];
+function pts(l){return l.map(function(k){return PJ(ST[k][1],ST[k][2]).join(",")}).join(" ")}
+function road(l,c){var p=pts(l);return '<polyline points="'+p+'" style="fill:none;stroke:var(--ink);stroke-width:8;stroke-linecap:round;stroke-linejoin:round;opacity:.8"/><polyline points="'+p+'" style="fill:none;stroke:'+c+';stroke-width:5;stroke-linecap:round;stroke-linejoin:round"/><polyline points="'+p+'" style="fill:none;stroke:var(--card);stroke-width:1.3;stroke-dasharray:6 5"/>'}
+function tx(x,y,t,a,sz,w,extra){return '<text x="'+x+'" y="'+y+'" text-anchor="'+a+'" style="font:'+(w||600)+' '+sz+'px Barlow,system-ui,sans-serif;fill:var(--ink);paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round'+(extra||'')+'">'+t+'</text>'}
+function mapHTML(){
+var sea=[[-117.12,32.5],[-117.3,33],[-117.9,33.6],[-118.5,34],[-119.2,34.2],[-120.5,34.5],[-120.8,35.2],[-120.8,37.2]].map(function(c){return PJ(c[0],c[1]).join(",")}).join(" ")+" 0,0 0,350";
+var g="";[-120,-115,-110,-105,-100].forEach(function(o){var x=PJ(o,0)[0];g+='<line x1="'+x+'" y1="40" x2="'+x+'" y2="340"/>'});[36,34,32].forEach(function(a){var y=PJ(0,a)[1];g+='<line x1="0" y1="'+y+'" x2="620" y2="'+y+'"/>'});
+var wf=PJ(ST.wf[1],ST.wf[2]),dl=PJ(ST.dl[1],ST.dl[2]);
+var sv='<svg viewBox="0 0 620 350" role="img" aria-label="Mappa del road trip da Wichita Falls a San Diego e ritorno">';
+sv+='<rect width="620" height="350" rx="8" style="fill:var(--bg)"/><polygon points="'+sea+'" style="fill:var(--teal);opacity:.16"/><g style="stroke:var(--line);stroke-width:1;stroke-dasharray:3 5;opacity:.8">'+g+'</g>';
+sv+=tx(330,190,"NEW MEXICO","middle",16,400,';opacity:.35;stroke:none')+tx(400,246,"TEXAS","middle",26,400,';opacity:.3;stroke:none')+tx(215,165,"ARIZONA","middle",16,400,';opacity:.35;stroke:none')+tx(46,112,"CALIFORNIA","middle",10,400,';opacity:.35;stroke:none')+tx(20,215,"PACIFIC","middle",11,400,';opacity:.45;stroke:none')+tx(20,229,"OCEAN","middle",11,400,';opacity:.45;stroke:none');
+sv+=road(BACK,"var(--teal)")+road(OUT,"var(--red)");
+sv+='<line x1="'+wf[0]+'" y1="'+wf[1]+'" x2="'+dl[0]+'" y2="'+dl[1]+'" style="stroke:var(--amber);stroke-width:2.5;stroke-dasharray:2 5;stroke-linecap:round"/><rect x="'+(dl[0]-6)+'" y="'+(dl[1]-6)+'" width="12" height="12" style="fill:var(--amber);stroke:var(--card);stroke-width:2"/>'+tx(dl[0]+6,dl[1]+22,"Dallas","end",14);
+["se","km"].forEach(function(k){var p=PJ(ST[k][1],ST[k][2]);sv+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" style="fill:var(--card);stroke:var(--ink);stroke-width:1.5"/>'});
+MIN.forEach(function(m){var p=PJ(ST[m[0]][1],ST[m[0]][2]);sv+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/>'+tx(p[0]+m[1],p[1]+m[2],ST[m[0]][0],m[3],11,400,';font-style:italic')});
+NUM.forEach(function(n){var p=PJ(ST[n[0]][1],ST[n[0]][2]);sv+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="10" style="fill:'+(n[1]===1?'var(--amber)':'var(--red)')+';stroke:var(--card);stroke-width:2"/><text x="'+p[0]+'" y="'+(p[1]+4)+'" text-anchor="middle" style="font:700 12px Barlow,sans-serif;fill:#fff">'+n[1]+'</text>'+tx(p[0]+n[2],p[1]+n[3],ST[n[0]][0],n[4],15)});
+sv+='<rect x="10" y="316" width="158" height="26" rx="4" style="fill:var(--card);stroke:var(--ink);stroke-width:2"/><text x="89" y="334" text-anchor="middle" style="font:400 14px Bungee,Impact,sans-serif;fill:var(--red)">ROUTE 66 · 2026</text>';
+sv+='<polygon points="592,14 598,34 592,30 586,34" style="fill:var(--ink)"/><text x="592" y="46" text-anchor="middle" style="font:700 11px Barlow,sans-serif;fill:var(--ink)">N</text></svg>';
+var lg='<div class="leg"><span><b style="color:var(--red)">━</b> Andata (nord)</span><span><b style="color:var(--teal)">━</b> Ritorno (sud)</span><span><b style="color:var(--amber)">┅</b> Dallas</span></div><div class="leg">'+STOPS.map(function(t,i){return '<span><b>'+(i+1)+'</b> '+t[0]+' <span class="meta">'+t[1]+'</span></span>'}).join("")+'</div>';
+return sv+lg}
+document.getElementById("map1").innerHTML=mapHTML();document.getElementById("map2").innerHTML=mapHTML();
 function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 var notes=ld("notes",{}),ck=ld("ck",{}),ex=ld("ex",[]),bud=ld("bud","");
 document.getElementById("days").innerHTML=DAYS.map(function(x,i){return '<div class="card day"><div class="row"><h3>'+x.n+'</h3><span class="tag">'+x.d+'</span></div><p style="margin:4px 0"><b>'+x.r+'</b></p><ul>'+x.s.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ul><div class="meta">Notte: '+x.b+' · Meteo tipico: '+x.w+'</div><div class="meta">Consiglio: '+x.t+'</div><textarea data-i="'+i+'" aria-label="Note per '+x.n+'" placeholder="Note: prenotazione, indirizzo, cosa hai fatto…">'+esc(notes[i]||"")+'</textarea></div>'}).join('');
 document.getElementById("days").addEventListener("input",function(e){if(e.target.dataset.i!==undefined){notes[e.target.dataset.i]=e.target.value;sv("notes",notes)}});
-var tot=0;
-document.getElementById("lists").innerHTML=CHK.map(function(g,gi){return '<h2>'+g[0]+'</h2><div class="card">'+g[1].map(function(t,ti){var id=gi+"-"+ti;tot++;return '<label class="chk"><input type="checkbox" data-k="'+id+'"'+(ck[id]?' checked':'')+'><span>'+t+'</span></label>'}).join('')+'</div>'}).join('');
-function prog(){var n=0;for(var k in ck)if(ck[k])n++;var p=Math.round(n/tot*100);document.getElementById("pct").textContent=p+"%";document.getElementById("cnt").textContent=n+" su "+tot+" fatte";document.getElementById("barfill").style.width=p+"%"}
-document.getElementById("lists").addEventListener("change",function(e){if(e.target.dataset.k){ck[e.target.dataset.k]=e.target.checked;sv("ck",ck);prog()}});prog();
-document.getElementById("phr").innerHTML='<div class="card">'+PH.map(function(p){return '<div class="ph"><b>'+p[0]+'</b><span class="meta">'+p[1]+'</span></div>'}).join('')+'</div>';
+function seed(k){return CHK.map(function(g,gi){return{t:g[0],i:g[1].map(function(t,ti){return{t:t,d:!!k&&!!ck[gi+"-"+ti]}})}})}
+var CL=ld("cl2",null);if(!Array.isArray(CL)||!CL.length)CL=seed(true);
+function scl(){sv("cl2",CL)}
+function asz(){document.querySelectorAll("textarea.it").forEach(function(t){t.style.height="auto";t.style.height=Math.max(30,t.scrollHeight)+"px"})}
+function prog(){var n=0,tot=0;CL.forEach(function(g){g.i.forEach(function(x){tot++;if(x.d)n++})});var p=tot?Math.round(n/tot*100):0;document.getElementById("pct").textContent=p+"%";document.getElementById("cnt").textContent=n+" su "+tot+" fatte";document.getElementById("barfill").style.width=p+"%"}
+function rch(){document.getElementById("chips").innerHTML=CL.map(function(g,gi){return '<button class="chip" data-j="'+gi+'">'+esc(g.t||"Lista")+'</button>'}).join("")}
+function rcl(){rch();document.getElementById("lists").innerHTML=CL.map(function(g,gi){return '<div class="card" id="cl'+gi+'"><input class="gt" data-g="'+gi+'" value="'+esc(g.t)+'" aria-label="Nome lista">'+g.i.map(function(x,ii){return '<div class="ci"><input type="checkbox" data-g="'+gi+'" data-i="'+ii+'"'+(x.d?' checked':'')+' aria-label="Fatto"><textarea class="it" rows="1" data-g="'+gi+'" data-i="'+ii+'" aria-label="Voce">'+esc(x.t)+'</textarea><button class="x" data-xi="'+gi+'-'+ii+'" aria-label="Elimina voce">✕</button></div>'}).join("")+'<div class="row"><input class="ai" data-a="'+gi+'" placeholder="Aggiungi una voce…" style="flex:1" aria-label="Nuova voce"><button class="sm ai" data-ad="'+gi+'">+ Aggiungi</button></div><button class="x sm" data-dg="'+gi+'">Elimina lista</button></div>'}).join("");asz();prog()}
+function arm(t,lab){if(t.dataset.arm!=="1"){t.dataset.arm="1";t.dataset.l=t.textContent;t.textContent=lab;setTimeout(function(){if(t.isConnected){t.dataset.arm="";t.textContent=t.dataset.l}},3000);return false}return true}
+function addi(gi,inp){var v=inp.value.trim();if(!v)return;CL[gi].i.push({t:v,d:false});scl();rcl()}
+var LS=document.getElementById("lists");
+LS.addEventListener("change",function(e){var t=e.target;if(t.type==="checkbox"){CL[t.dataset.g].i[t.dataset.i].d=t.checked;scl();prog()}});
+LS.addEventListener("input",function(e){var t=e.target;if(t.classList.contains("it")){CL[t.dataset.g].i[t.dataset.i].t=t.value;scl();t.style.height="auto";t.style.height=Math.max(30,t.scrollHeight)+"px"}else if(t.classList.contains("gt")){CL[t.dataset.g].t=t.value;scl();rch()}});
+LS.addEventListener("click",function(e){var t=e.target;if(t.dataset.xi){if(!arm(t,"Sicuro?"))return;var q=t.dataset.xi.split("-");CL[q[0]].i.splice(+q[1],1);scl();rcl()}else if(t.dataset.dg){if(!arm(t,"Elimina lista?"))return;CL.splice(+t.dataset.dg,1);scl();rcl()}else if(t.dataset.ad){addi(+t.dataset.ad,t.parentNode.querySelector("input.ai"))}});
+LS.addEventListener("keydown",function(e){var t=e.target;if(e.key==="Enter"&&t.dataset.a!==undefined){e.preventDefault();addi(+t.dataset.a,t)}});
+document.getElementById("chips").addEventListener("click",function(e){var j=e.target.dataset.j;if(j===undefined)return;var el=document.getElementById("cl"+j);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})});
+document.getElementById("ngb").addEventListener("click",function(){var i=document.getElementById("ngn"),v=i.value.trim();if(!v)return;CL.push({t:v,i:[]});i.value="";scl();rcl();var el=document.getElementById("cl"+(CL.length-1));if(el)el.scrollIntoView({block:"start"})});
+document.getElementById("rst").addEventListener("click",function(e){if(!arm(e.target,"Sicuro? Cancella le tue modifiche"))return;CL=seed(false);scl();rcl()});
+rcl();
+rph("");document.getElementById("phq").addEventListener("input",function(e){rph(e.target.value)});
 var bi=document.getElementById("bud");bi.value=bud;
 function money(n){return "$"+(Math.round(n*100)/100).toLocaleString("it-IT")}
 function rb(){var t=ex.reduce(function(a,b){return a+b.a},0),b=parseFloat(bud)||0;document.getElementById("tot").textContent=money(t);document.getElementById("left").textContent=money(b-t);document.getElementById("bfill").style.width=(b?Math.min(100,t/b*100):0)+"%";document.getElementById("elist").innerHTML=ex.length?'<div class="card">'+ex.map(function(x,i){return '<div class="exp"><span>'+esc(x.d)+' <span class="meta">('+x.c+')</span></span><span><b>'+money(x.a)+'</b><button class="x" data-r="'+i+'" aria-label="Elimina spesa">✕</button></span></div>'}).join('')+'</div>':'<p class="meta">Nessuna spesa ancora. Aggiungi la prima qui sopra.</p>'}
 bi.addEventListener("input",function(){bud=bi.value;sv("bud",bud);rb()});
 document.getElementById("eadd").addEventListener("click",function(){var d=document.getElementById("edesc").value.trim(),a=parseFloat(document.getElementById("eamt").value);if(!d||isNaN(a))return;ex.push({d:d,a:a,c:document.getElementById("ecat").value});sv("ex",ex);document.getElementById("edesc").value="";document.getElementById("eamt").value="";rb()});
 document.getElementById("elist").addEventListener("click",function(e){if(e.target.dataset.r!==undefined){ex.splice(+e.target.dataset.r,1);sv("ex",ex);rb()}});rb();
-var DB=null,cur=null;
+var DB=null;
 function dbo(cb){if(DB)return cb(DB);try{var r=indexedDB.open('tripdocs',1);r.onupgradeneeded=function(){r.result.createObjectStore('f',{keyPath:'id',autoIncrement:true})};r.onsuccess=function(){DB=r.result;cb(DB)};r.onerror=function(){cb(null)}}catch(e){cb(null)}}
 function dtx(mode,fn,cb){dbo(function(d){if(!d)return cb(null);try{var t=d.transaction('f',mode),q=fn(t.objectStore('f'));t.oncomplete=function(){cb(q&&q.result!==undefined?q.result:true)};t.onerror=function(){cb(null)}}catch(e){cb(null)}})}
 function fmt(n){return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
 function rd(){dtx('readonly',function(s){return s.getAll()},function(a){var el=document.getElementById('dlist');if(!Array.isArray(a)){el.innerHTML='<p class="meta">Il salvataggio dei file non è disponibile su questo browser.</p>';return}window.DOCS=a;el.innerHTML=a.length?'<div class="card">'+a.map(function(x){return '<div class="exp"><span><b>'+esc(x.name)+'</b><br><span class="meta">'+esc(x.cat)+' · '+fmt(x.size)+'</span></span><span><button data-o="'+x.id+'">Apri</button> <button class="x" data-d="'+x.id+'" aria-label="Elimina file">✕</button></span></div>'}).join('')+'</div>':'<p class="meta">Nessun file ancora. Carica passaporto, ESTA, voli, noleggio e assicurazione.</p>'})}
-function opn(x){var u=URL.createObjectURL(x.blob);cur=u;document.getElementById('mbd').innerHTML=(x.type&&x.type.indexOf('image')===0)?'<img alt="'+esc(x.name)+'" src="'+u+'">':'<iframe title="'+esc(x.name)+'" src="'+u+'"></iframe>';document.getElementById('mlink').href=u;document.getElementById('mttl').textContent=x.name;document.getElementById('mod').classList.add('on')}
+var PDFV='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/',pdfP=null,tok=0;
+function lsc(u){return new Promise(function(ok,no){var e=document.createElement('script');e.src=u;e.onload=ok;e.onerror=function(){no(new Error('load'))};document.head.appendChild(e)})}
+function pdfl(){if(window.pdfjsLib&&window.pdfjsWorker)return Promise.resolve();if(!pdfP)pdfP=lsc(PDFV+'pdf.min.js').then(function(){return lsc(PDFV+'pdf.worker.min.js')}).catch(function(e){pdfP=null;throw e});return pdfP}
+function msg(t){document.getElementById('mbd').innerHTML='<p class="meta" style="padding:24px;color:#fff">'+t+'</p>'}
+function opn(x){var b=document.getElementById('mbd'),tk=++tok;document.getElementById('mttl').textContent=x.name;document.getElementById('mod').classList.add('on');msg('Apertura\u2026');
+if(x.type&&x.type.indexOf('image')===0){var r=new FileReader();r.onload=function(){if(tok!==tk)return;b.innerHTML='';var im=new Image();im.alt=x.name;im.src=r.result;b.appendChild(im)};r.onerror=function(){msg('Impossibile aprire il file.')};r.readAsDataURL(x.blob);return}
+if(x.type==='application/pdf'||/\.pdf$/i.test(x.name)){pdfl().then(function(){return x.blob.arrayBuffer()}).then(function(ab){return pdfjsLib.getDocument({data:ab}).promise}).then(function(doc){if(tok!==tk)return;b.innerHTML='';var w=Math.min(b.clientWidth||360,900),n=Math.min(doc.numPages,30),ch=Promise.resolve();for(var i=1;i<=n;i++){(function(i){ch=ch.then(function(){if(tok!==tk)return;return doc.getPage(i).then(function(p){var dpr=window.devicePixelRatio||1,v0=p.getViewport({scale:1}),sc=w/v0.width,v=p.getViewport({scale:sc*dpr}),c=document.createElement('canvas');c.width=v.width;c.height=v.height;c.style.width=w+'px';c.style.height=(v.height/dpr)+'px';b.appendChild(c);return p.render({canvasContext:c.getContext('2d'),viewport:v}).promise})})})(i)}return ch}).catch(function(){if(tok===tk)msg('Non riesco ad aprire questo PDF. Se sei offline per la prima volta, collegati a internet e riprova.')});return}
+msg('Formato non supportato.')}
 document.getElementById('fup').addEventListener('change',function(e){var inp=e.target,fs=Array.prototype.slice.call(inp.files),cat=document.getElementById('fcat').value,i=0;(function nx(){if(i>=fs.length){inp.value='';rd();return}var f=fs[i++];dtx('readwrite',function(s){return s.add({name:f.name,cat:cat,size:f.size,type:f.type,blob:f})},function(){nx()})})()});
 document.getElementById('dlist').addEventListener('click',function(e){var t=e.target,o=t.dataset.o,d=t.dataset.d;if(o){var x=(window.DOCS||[]).filter(function(y){return String(y.id)===o})[0];if(x)opn(x)}if(d){if(t.dataset.arm!=='1'){t.dataset.arm='1';t.textContent='Elimina?';return}dtx('readwrite',function(s){return s['delete'](+d)},rd)}});
-document.getElementById('mclose').addEventListener('click',function(){document.getElementById('mod').classList.remove('on');document.getElementById('mbd').innerHTML='';if(cur){URL.revokeObjectURL(cur);cur=null}});
+document.getElementById('mclose').addEventListener('click',function(){tok++;document.getElementById('mod').classList.remove('on');document.getElementById('mbd').innerHTML=''});
 rd();
-function show(h){h=h||(location.hash||"#guida").slice(1);var t=document.getElementById(h);if(!t||t.tagName!=="SECTION")h="guida";document.querySelectorAll("section").forEach(function(s){s.classList.toggle("on",s.id===h)});document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+h)});try{window.scrollTo(0,0)}catch(x){}}
+function show(h){h=h||(location.hash||"#guida").slice(1);var t=document.getElementById(h);if(!t||t.tagName!=="SECTION")h="guida";document.querySelectorAll("section").forEach(function(s){s.classList.toggle("on",s.id===h)});document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+h)});if(h==="checklist")asz();try{window.scrollTo(0,0)}catch(x){}}
 document.getElementById("nav").addEventListener("click",function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();var h=a.getAttribute("href").slice(1);show(h);try{history.replaceState(null,"","#"+h)}catch(x){}});
 window.addEventListener("hashchange",function(){show()});show();
 try{if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0){navigator.serviceWorker.register("sw.js").catch(function(){})}}catch(x){}
